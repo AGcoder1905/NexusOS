@@ -21,7 +21,7 @@ I enjoy:
 
 ## Project Style
 
-NexusOS is designed with a **modern Apple-inspired Liquid Glass UI**, featuring:
+NexusOS is designed with a modern Apple-inspired Liquid Glass UI, featuring:
 - Frosted glass effects
 - Smooth rounded design
 - Mountain background aesthetic
