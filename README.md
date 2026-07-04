@@ -1,8 +1,10 @@
-# 🌌 NexusOS
+# NexusOS
 
-Welcome to NexusOS, a personal web-based "operating system" built using HTML and CSS.
+Welcome to NexusOS, this is a webOS that i built using HTML and CSS.
 
-This is my first step in building a custom personal OS-style website that represents me, my interests, and my coding journey.
+The start up screen is my first step in building this webOS that represents me. 
+
+In the next project this os will be a full working webOS
 
 ---
 
@@ -10,31 +12,38 @@ This is my first step in building a custom personal OS-style website that repres
 
 Hi! I'm Aryav, a 13-year-old boy who is very interested in coding.
 
-I started coding around 2021, and since then I have been building small projects and learning new technologies.
+I started coding around 2021 when I was 7 years old and since then I have been building small projects.
 
-I enjoy:
-- Web development
-- Python programming
-- Learning new tech every day
+I started coding on a block based coding website and then later moved to text based. Then after that I got a rasberry pi where I coded some small projects such as laser security system and smart home dashboard.
+
+Since then I have created websites, apps and mini robots
 
 ---
 
 ## Project Style
 
-NexusOS is designed with a modern Apple-inspired Liquid Glass UI, featuring:
-- Frosted glass effects
-- Smooth rounded design
-- Mountain background aesthetic
-- Clean and minimal interface
+NexusOS is designed with a liquid glass UI which includes
+- glass effects
+- rounded edge design
+- Clean UI
 
 
 ---
 
-## 🌄 Features
+## Features
 
 - Welcome screen UI
 - Personal introduction
-- Tech stack display
-- Modern glassmorphism design
+- glass design
 
+---
 
+## How to start server
+
+Inside container run following commands to start pythong server 
+
+ `python3 -m http.server 8080`
+
+And then visit site in browser
+
+`https://aryav.hackclub.app/`
