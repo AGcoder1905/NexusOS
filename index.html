@@ -158,6 +158,51 @@ This website is where you'll be able to learn more about me and the projects I b
 </div>
 
 </div>
+<script>
+const windowEl = document.querySelector(".window");
+const topbar = document.querySelector(".topbar");
 
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+// Position the window in the center when the page loads
+windowEl.style.position = "absolute";
+windowEl.style.left = `${(window.innerWidth - windowEl.offsetWidth) / 2}px`;
+windowEl.style.top = `${(window.innerHeight - windowEl.offsetHeight) / 2}px`;
+
+// Prevent text selection while dragging
+topbar.style.userSelect = "none";
+topbar.style.cursor = "grab";
+
+topbar.addEventListener("mousedown", (e) => {
+    isDragging = true;
+
+    offsetX = e.clientX - windowEl.offsetLeft;
+    offsetY = e.clientY - windowEl.offsetTop;
+
+    topbar.style.cursor = "grabbing";
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    windowEl.style.left = `${e.clientX - offsetX}px`;
+    windowEl.style.top = `${e.clientY - offsetY}px`;
+});
+
+document.addEventListener("mouseup", () => {
+    isDragging = false;
+    topbar.style.cursor = "grab";
+});
+
+// Re-center the window if the browser is resized
+window.addEventListener("resize", () => {
+    if (!isDragging) {
+        windowEl.style.left = `${(window.innerWidth - windowEl.offsetWidth) / 2}px`;
+        windowEl.style.top = `${(window.innerHeight - windowEl.offsetHeight) / 2}px`;
+    }
+});
+</script>
 </body>
 </html>
