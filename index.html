@@ -46,6 +46,18 @@ body{
     padding:16px 22px;
     background:rgba(255,255,255,0.08);
     border-bottom:1px solid rgba(255,255,255,0.15);
+    cursor:grab;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:none;
+}
+
+.topbar:active{cursor:grabbing;}
+
+body.dragging,
+body.dragging *{
+    user-select:none;
+    -webkit-user-select:none;
 }
 
 .dot{
@@ -171,30 +183,40 @@ windowEl.style.position = "absolute";
 windowEl.style.left = `${(window.innerWidth - windowEl.offsetWidth) / 2}px`;
 windowEl.style.top = `${(window.innerHeight - windowEl.offsetHeight) / 2}px`;
 
-// Prevent text selection while dragging
-topbar.style.userSelect = "none";
-topbar.style.cursor = "grab";
+topbar.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
 
-topbar.addEventListener("mousedown", (e) => {
+    e.preventDefault();
     isDragging = true;
 
-    offsetX = e.clientX - windowEl.offsetLeft;
-    offsetY = e.clientY - windowEl.offsetTop;
+    const rect = windowEl.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
 
-    topbar.style.cursor = "grabbing";
+    document.body.classList.add("dragging");
+    topbar.setPointerCapture(e.pointerId);
 });
 
-document.addEventListener("mousemove", (e) => {
+topbar.addEventListener("pointermove", (e) => {
     if (!isDragging) return;
 
     windowEl.style.left = `${e.clientX - offsetX}px`;
     windowEl.style.top = `${e.clientY - offsetY}px`;
 });
 
-document.addEventListener("mouseup", () => {
+function stopDragging(e) {
+    if (!isDragging) return;
+
     isDragging = false;
-    topbar.style.cursor = "grab";
-});
+    document.body.classList.remove("dragging");
+
+    if (topbar.hasPointerCapture(e.pointerId)) {
+        topbar.releasePointerCapture(e.pointerId);
+    }
+}
+
+topbar.addEventListener("pointerup", stopDragging);
+topbar.addEventListener("pointercancel", stopDragging);
 
 // Re-center the window if the browser is resized
 window.addEventListener("resize", () => {
