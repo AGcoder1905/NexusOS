@@ -38,6 +38,10 @@ body{
         inset 0 1px 1px rgba(255,255,255,.3);
 
     overflow:hidden;
+    cursor:grab;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:none;
 }
 
 .topbar{
@@ -46,13 +50,9 @@ body{
     padding:16px 22px;
     background:rgba(255,255,255,0.08);
     border-bottom:1px solid rgba(255,255,255,0.15);
-    cursor:grab;
-    user-select:none;
-    -webkit-user-select:none;
-    touch-action:none;
 }
 
-.topbar:active{cursor:grabbing;}
+.window.dragging{cursor:grabbing;}
 
 body.dragging,
 body.dragging *{
@@ -172,7 +172,6 @@ This website is where you'll be able to learn more about me and the projects I b
 </div>
 <script>
 const windowEl = document.querySelector(".window");
-const topbar = document.querySelector(".topbar");
 
 let isDragging = false;
 let offsetX = 0;
@@ -183,7 +182,7 @@ windowEl.style.position = "absolute";
 windowEl.style.left = `${(window.innerWidth - windowEl.offsetWidth) / 2}px`;
 windowEl.style.top = `${(window.innerHeight - windowEl.offsetHeight) / 2}px`;
 
-topbar.addEventListener("pointerdown", (e) => {
+windowEl.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
 
     e.preventDefault();
@@ -194,10 +193,11 @@ topbar.addEventListener("pointerdown", (e) => {
     offsetY = e.clientY - rect.top;
 
     document.body.classList.add("dragging");
-    topbar.setPointerCapture(e.pointerId);
+    windowEl.classList.add("dragging");
+    windowEl.setPointerCapture(e.pointerId);
 });
 
-topbar.addEventListener("pointermove", (e) => {
+windowEl.addEventListener("pointermove", (e) => {
     if (!isDragging) return;
 
     windowEl.style.left = `${e.clientX - offsetX}px`;
@@ -209,14 +209,15 @@ function stopDragging(e) {
 
     isDragging = false;
     document.body.classList.remove("dragging");
+    windowEl.classList.remove("dragging");
 
-    if (topbar.hasPointerCapture(e.pointerId)) {
-        topbar.releasePointerCapture(e.pointerId);
+    if (windowEl.hasPointerCapture(e.pointerId)) {
+        windowEl.releasePointerCapture(e.pointerId);
     }
 }
 
-topbar.addEventListener("pointerup", stopDragging);
-topbar.addEventListener("pointercancel", stopDragging);
+windowEl.addEventListener("pointerup", stopDragging);
+windowEl.addEventListener("pointercancel", stopDragging);
 
 // Re-center the window if the browser is resized
 window.addEventListener("resize", () => {
